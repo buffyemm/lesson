@@ -29,7 +29,7 @@ struct portal_ { // структура портала, в которой буд�
 
     string name; // имя портала
     int target;  // куда будет вести портал, в какую локацию
-
+    bool activ;
 };
 
 struct location_ {      // создали структуру локации, в ней есть имя и наши портал, по которым мы будем перемещаться
@@ -48,27 +48,27 @@ void InitGame() {       // создаем функцию которая буде
     
     
     room[0].name = "Дом"; // задаем кажой комнате имя
-    room[0].portal.push_back({"door", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
+    room[0].portal.push_back({"door", 1, false}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
     room[0].item_l.push_back(item_::key);
 
     room[1].name = "Комната";
-    room[1].portal.push_back({"back", 0});
+    room[1].portal.push_back({"back", 0, true});
     room[1].item_l.push_back(item_::hemlet);
 
     room[2].name = "Подъезд";
-    room[2].portal.push_back({ "back", 0 });
-    room[2].portal.push_back({ "iron_door", 3 });
+    room[2].portal.push_back({ "back", 0, true });
+    room[2].portal.push_back({ "iron_door", 3, true });
     room[2].item_l.push_back(item_::axe);
     room[2].item_l.push_back(item_::sword);
 
     room[3].name = "Улица";
-    room[3].portal.push_back({ "back", 2 });
+    room[3].portal.push_back({ "back", 2, true });
     room[3].item_l.push_back(item_::sword);
 
 
 }
 
-// Сделаем команду по поиску предметов и подбор предметов в локации
+// реализуем скрытые порталы  и команду open
 
 int main()
 {   
@@ -89,7 +89,8 @@ int main()
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
-                cout << room[user.current_loc].portal[i].name << endl; // здесь будут уже не цифры а имена порталов.
+                auto p = room[user.current_loc].portal[i];
+                cout << room[user.current_loc].portal[i].name   << endl; //  имена порталов.
             }
 
             cout << "Введите имя портала или напиши no, чтобы отменить выбор:  \n";
@@ -184,6 +185,35 @@ int main()
                 cout << "Предметов нет.\n";
             }
 
+        }
+
+
+        if (ch == "open") {
+
+            if (!user.item_p.empty()) {
+
+                for (int i = 0; i < user.item_p.size(); i++) {
+
+                    if (itemLib[(int)user.item_p[i]] == "key") {
+
+                        room[0].portal[0].activ = true;
+                        cout << "Дверь открыта\n";
+
+                    }
+                    else {
+
+                        cout << "У вас нет ключа\n";
+
+                    }
+
+
+                }
+
+            }
+            else {
+
+                cout << "Инвентарь пуст.\n";
+            }
         }
 
 
