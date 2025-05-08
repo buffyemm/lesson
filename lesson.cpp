@@ -49,27 +49,27 @@ void InitGame() {       // создаем функцию которая буде
     
     room[0].name = "Дом"; // задаем кажой комнате имя
     room[0].portal.push_back({"door", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
-    room[1].item_l.push_back(item_::hemlet);
+    room[0].item_l.push_back(item_::key);
 
     room[1].name = "Комната";
     room[1].portal.push_back({"back", 0});
-    room[1].item_l.push_back(item_::key);
+    room[1].item_l.push_back(item_::hemlet);
 
     room[2].name = "Подъезд";
     room[2].portal.push_back({ "back", 0 });
     room[2].portal.push_back({ "iron_door", 3 });
-    room[1].item_l.push_back(item_::axe);
+    room[2].item_l.push_back(item_::axe);
+    room[2].item_l.push_back(item_::sword);
 
     room[3].name = "Улица";
     room[3].portal.push_back({ "back", 2 });
-    room[1].item_l.push_back(item_::sword);
+    room[3].item_l.push_back(item_::sword);
 
-    user.item_p.push_back(item_::axe); // добавили в наш инвентарь топор, чтобы протестировать
 
 }
 
-// На этом этапе создадим массив предметов. И так как наш вектор содержит в себе цифры предметов, мы будем передавать их в массив предметов. Так же расикдаем предметы по локам
-//Создадим предметы локации
+// Сделаем команду по поиску предметов и подбор предметов в локации
+
 int main()
 {   
     SetConsoleCP(1251); // подключаем запись русского языка в string
@@ -119,14 +119,20 @@ int main()
         
 
         if (ch == "item") {
+            if (!user.item_p.empty()) { // проверка на не пуст ли инвентарь
 
-            for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
-                // будут выводиться только цифры
-                cout << itemLib[(int)user.item_p[i]] << endl; // закидываем наш вектор предметов игрока и нам уже выводиться текст
+                for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
+
+                    // будут выводиться только цифры
+                    cout << "Ваши предметы: " << itemLib[(int)user.item_p[i]] << endl; // закидываем наш вектор предметов игрока и нам уже выводиться текст
+
+                }
+            }
+            else {
+
+                cout << "Ваш инвентарь пуст\n";
 
             }
-
-
         }
 
         if (ch == "q") {
@@ -141,6 +147,44 @@ int main()
 
         }
 
+
+        if (ch == "search") { //Команда поиска, в нее встроил сразу подбор предмета
+
+            if (!room[user.current_loc].item_l.empty()) { // проверка на не пуста ли локация
+
+                for (int i = 0; i < room[user.current_loc].item_l.size(); i++) { // идем по массиву предметов текущей локации
+
+                    cout << "Вы нашли предметы: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
+
+                }
+
+                cout << "Введите имя предмета или напиши no, чтобы отменить выбор:\n";
+
+                cin >> ch;
+
+                if (ch != "no") {
+
+                    for (int i = 0; i < room[user.current_loc].item_l.size(); i++) {
+
+                        if (ch == itemLib[(int)room[user.current_loc].item_l[i]]) {// проверка совпал ли ввод пользователя с названием предмета
+
+                            user.item_p.push_back(room[user.current_loc].item_l[i]); // кладем предмет из локаии который мы ввели в предметы игрока
+
+                            cout << "Вы подобрали предмет: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
+
+                            room[user.current_loc].item_l.erase(room[user.current_loc].item_l.cbegin() + i); //удаляем из локации этот предмет
+
+                        }
+
+                    }
+                }
+            }
+            else {
+
+                cout << "Предметов нет.\n";
+            }
+
+        }
 
 
     }
