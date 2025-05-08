@@ -55,7 +55,7 @@ void InitGame() {       // создаем функцию которая буде
     room[3].name = "Улица";
     room[3].portal.push_back({ "back", 2 });
 
-    user.item_p.push_back(item_::axe); // добавили в наш инвентарь топор
+    user.item_p.push_back(item_::axe); // добавили в наш инвентарь топор, чтобы протестировать
 
 }
 
@@ -119,6 +119,17 @@ int main()
 
         }
 
+        if (ch == "q") {
+
+            break; // выход из цикла
+        }
+
+        if (ch == "help") {
+
+            cout << "Команды:\n1.go\n2.item\n3.q";
+
+
+        }
 
 
 
