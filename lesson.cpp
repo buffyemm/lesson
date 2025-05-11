@@ -50,6 +50,7 @@ void InitGame() {       // создаем функцию которая буде
     room[0].name = "Дом"; // задаем кажой комнате имя
     room[0].portal.push_back({"door", 1, false}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
     room[0].item_l.push_back(item_::key);
+    room[0].portal.push_back({ "door2", 2, false });
 
     room[1].name = "Комната";
     room[1].portal.push_back({"back", 0, true});
@@ -90,14 +91,14 @@ int main()
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
                 auto p = room[user.current_loc].portal[i];
-                cout << room[user.current_loc].portal[i].name   << endl; //  имена порталов.
+                cout << room[user.current_loc].portal[i].name << endl; //  имена порталов.
             }
 
-            cout << "Введите имя портала или напиши no, чтобы отменить выбор:  \n";
+            cout << "Введите имя портала  \n";
 
             cin >> ch;// повторный ввод на имя портала
 
-            if (ch != "no") {
+            //if (ch != "no") {
 
                 for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
@@ -108,16 +109,16 @@ int main()
                         cout << "Вы переместились в локацию: " << room[user.current_loc].name << endl;
 
                     }
-                    else {
+                    /*else {
                         cout << "ERROR\n";
-                    }
+                    }*/
 
                 }
 
-            }
+            //}
 
         }
-        
+
 
         if (ch == "item") {
             if (!user.item_p.empty()) { // проверка на не пуст ли инвентарь
@@ -158,53 +159,116 @@ int main()
                     cout << "Вы нашли предметы: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
 
                 }
-
-                cout << "Введите имя предмета или напиши no, чтобы отменить выбор:\n";
-
-                cin >> ch;
-
-                if (ch != "no") {
-
-                    for (int i = 0; i < room[user.current_loc].item_l.size(); i++) {
-
-                        if (ch == itemLib[(int)room[user.current_loc].item_l[i]]) {// проверка совпал ли ввод пользователя с названием предмета
-
-                            user.item_p.push_back(room[user.current_loc].item_l[i]); // кладем предмет из локаии который мы ввели в предметы игрока
-
-                            cout << "Вы подобрали предмет: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
-
-                            room[user.current_loc].item_l.erase(room[user.current_loc].item_l.cbegin() + i); //удаляем из локации этот предмет
-
-                        }
-
-                    }
-                }
             }
             else {
 
                 cout << "Предметов нет.\n";
             }
+        }
+
+
+        if (ch == "pick") {
+
+            //cout << "Введите имя предмета или напиши no, чтобы отменить выбор:\n";
+
+            cin >> ch;
+
+            if (ch != "no") {
+
+                for (int i = 0; i < room[user.current_loc].item_l.size(); i++) {
+
+                    if (ch == itemLib[(int)room[user.current_loc].item_l[i]]) {// проверка совпал ли ввод пользователя с названием предмета
+
+                        user.item_p.push_back(room[user.current_loc].item_l[i]); // кладем предмет из локаии который мы ввели в предметы игрока
+
+                        cout << "Вы подобрали предмет: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
+
+                        room[user.current_loc].item_l.erase(room[user.current_loc].item_l.cbegin() + i); //удаляем из локации этот предмет
+
+                    }
+
+                }
+            }
 
         }
 
 
-        if (ch == "open") {
+        if (ch == "use") {
+
+            cout << "Введите предмет\n";
+
+            string a;
+            cin >> a;
 
             if (!user.item_p.empty()) {
 
                 for (int i = 0; i < user.item_p.size(); i++) {
 
-                    if (itemLib[(int)user.item_p[i]] == "key") {
+                    if (itemLib[(int)user.item_p[i]] == a) {
 
-                        room[0].portal[0].activ = true;
-                        cout << "Дверь открыта\n";
+                        switch ((int)user.item_p[i])
+                        {
+                               case 0: {
+                               
+                                   if (user.current_loc == 2) {
+
+                                       cout << "Вы зарубили бабку топором\n";
+                                       break;
+                                   }
+
+                               }
+                               
+                               case 1: {
+
+                                   if (user.current_loc == 2) {
+
+                                       cout << "Вы закололи бабку\n";
+                                       break;
+                                   }
+
+                               }
+
+                               case 2: {
+
+                                   if (user.current_loc == 2) {
+
+                                       cout << "Вы испугали бабку\n";
+                                       break;
+                                   }
+
+                               }
+                               
+                               case 3: {
+
+                                   if (user.current_loc == 2) {
+
+                                       cout << "Вы открыли подъезд\n";
+                                       break;
+                                   }
+
+                               }
+                                
+                               default: {
+
+                                   cout << "не тот предмет";
+                                   break;
+                               }
+
+                        }
+
+
+
+
+
+                        /*room[0].portal[0].activ = true;
+                        cout << "Дверь открыта\n";*/
 
                     }
-                    else {
+                   /* else {
 
-                        cout << "У вас нет ключа\n";
+                        cout << "У вас нет предмета\n";
 
-                    }
+                    }*/
 
 
                 }
