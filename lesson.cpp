@@ -58,7 +58,7 @@ void InitGame() {       // создаем функцию которая буде
 
     room[2].name = "Подъезд";
     room[2].portal.push_back({ "back", 0, true });
-    room[2].portal.push_back({ "iron_door", 3, true });
+    room[2].portal.push_back({ "iron_door", 3, false });
     room[2].item_l.push_back(item_::axe);
     room[2].item_l.push_back(item_::sword);
 
@@ -79,7 +79,7 @@ int main()
     InitGame();
     string ch; // создали переменную для ввода пользователя
 
-    cout << "Вы находитесь в локации: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
+    cout << "You in location: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
 
     while (user.life) { // цикл игры, пока пользователь живой
 
@@ -91,10 +91,12 @@ int main()
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
                 auto p = room[user.current_loc].portal[i];
-                cout << room[user.current_loc].portal[i].name << endl; //  имена порталов.
+                cout << room[user.current_loc].portal[i].name << (p.activ? " unlocked\n" : " locked\n");
+                //cout << endl; //  имена порталов.
+
             }
 
-            cout << "Введите имя портала  \n";
+            cout << "Enter name portal  \n";
 
             cin >> ch;// повторный ввод на имя портала
 
@@ -104,10 +106,17 @@ int main()
 
                     if (ch == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
-                        user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
+                        if (room[user.current_loc].portal[i].activ) {
 
-                        cout << "Вы переместились в локацию: " << room[user.current_loc].name << endl;
 
+                            user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
+
+                            cout << "You have moved in: " << room[user.current_loc].name << endl;
+                        }
+                        else {
+
+                            cout << "DOOR LOCKED\n";
+                        }
                     }
                     /*else {
                         cout << "ERROR\n";
@@ -126,13 +135,13 @@ int main()
                 for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
 
                     // будут выводиться только цифры
-                    cout << "Ваши предметы: " << itemLib[(int)user.item_p[i]] << endl; // закидываем наш вектор предметов игрока и нам уже выводиться текст
+                    cout << "Your item: " << itemLib[(int)user.item_p[i]] << endl; // закидываем наш вектор предметов игрока и нам уже выводиться текст
 
                 }
             }
             else {
 
-                cout << "Ваш инвентарь пуст\n";
+                cout << "Your inventory is empty\n";
 
             }
         }
@@ -144,7 +153,7 @@ int main()
 
         if (ch == "help") {
 
-            cout << "Команды:\n1.go\n2.item\n3.q";
+            cout << "Command:\n1.go\n2.item\n3.q\n4.search\n5.pick\n6.use\n";
 
 
         }
@@ -156,7 +165,7 @@ int main()
 
                 for (int i = 0; i < room[user.current_loc].item_l.size(); i++) { // идем по массиву предметов текущей локации
 
-                    cout << "Вы нашли предметы: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
+                    cout << "You find item: " << itemLib[(int)room[user.current_loc].item_l[i]] << endl;
 
                 }
             }
@@ -169,11 +178,7 @@ int main()
 
         if (ch == "pick") {
 
-            //cout << "Введите имя предмета или напиши no, чтобы отменить выбор:\n";
-
             cin >> ch;
-
-            if (ch != "no") {
 
                 for (int i = 0; i < room[user.current_loc].item_l.size(); i++) {
 
@@ -188,14 +193,12 @@ int main()
                     }
 
                 }
-            }
-
         }
 
 
         if (ch == "use") {
 
-            cout << "Введите предмет\n";
+            cout << "Enter item\n";
 
             string a;
             cin >> a;
@@ -210,7 +213,7 @@ int main()
                         {
                                case 0: {
                                
-                                   if (user.current_loc == 2) {
+                                   if (room[user.current_loc].name == "Home") {
 
                                        cout << "Вы зарубили бабку топором\n";
                                        break;
@@ -240,11 +243,17 @@ int main()
                                
                                case 3: {
 
-                                   if (user.current_loc == 2) {
+                                   if (user.current_loc == 0) {
 
-                                       cout << "Вы открыли подъезд\n";
-                                       break;
+                                       room[0].portal[1].activ = true;
+                                       cout << "You open door\n";
                                    }
+                                   else if (user.current_loc == 2) {
+                                       room[2].portal[1].activ = true;
+                                       cout << "You open iron door\n";
+
+                                   }
+                                       break;
 
                                }
                                 
@@ -264,11 +273,11 @@ int main()
                         cout << "Дверь открыта\n";*/
 
                     }
-                   /* else {
+                    else {
 
                         cout << "У вас нет предмета\n";
 
-                    }*/
+                    }
 
 
                 }
