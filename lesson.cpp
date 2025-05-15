@@ -9,7 +9,7 @@ int main()
     int user;// переменная user, типа int, целые переменные
     int bot = 1 + rand() % 3; // в бот мы будем ставить функцию rand(), которая будет нам рандомить числа от 1 до 3
 
-    std::cout << "Введите число\n1.камень\n2.ножницы\n3.бумага\n";
+    std::cout << "Enter number\n1.rock\n2.scissors\n3.paper\n";
 
     std::cin >> user; // принимает ввод с консоли и кладет наш ввод в переменную user
 
@@ -20,7 +20,7 @@ int main()
     }
     else if (user == bot) {// условия ничьи
 
-        std::cout << "ничья\n";
+        std::cout << "draw\n";
 
     }
     else {
