@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <string> // подключаем библиотеку для стринг
-#include <Windows.h>
 #include <vector>
 
 using namespace std;
@@ -42,18 +41,17 @@ location_ room[4];
 
 void InitGame() {       // создаем функцию которая будет заносить все наши значения в массив room
 
-    room[0].name = "Дом"; // задаем кажой комнате имя
+    room[0].name = "Home"; // задаем кажой комнате имя
     room[0].portal.push_back({"door", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
 
-    room[1].name = "Комната";
+    room[1].name = "room";
     room[1].portal.push_back({"back", 0});
 
-    room[2].name = "Подъезд";
+    room[2].name = "Entrance";
     room[2].portal.push_back({ "back", 0 });
     room[2].portal.push_back({ "iron_door", 3 });
 
-    room[3].name = "Улица";
-    room[3].portal.push_back({ "back", 2 });
+    room[3].name = "Street";
 
     user.item_p.push_back(item_::axe); // добавили в наш инвентарь топор, чтобы протестировать
 
@@ -62,16 +60,13 @@ void InitGame() {       // создаем функцию которая буде
 // здесь расширим наши локации, добавим новые комнаты и добавим новую структуру предметов, создаим инвентарь игрока и положим туда один предмет
 int main()
 {   
-    SetConsoleCP(1251); // подключаем запись русского языка в string
-    setlocale(LC_ALL, "Ru");// подключаем русский язык для вывода в консоль
 
     InitGame();
     string ch; // создали переменную для ввода пользователя
 
-    cout << "Вы находитесь в локации: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
+    cout << "You're in location: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
 
     while (user.life) { // цикл игры, пока пользователь живой
-
 
         cin >> ch;
 
@@ -82,11 +77,9 @@ int main()
                 cout << room[user.current_loc].portal[i].name << endl; // здесь будут уже не цифры а имена порталов.
             }
 
-            cout << "Введите имя портала или напиши no, чтобы отменить выбор:  \n";
 
             cin >> ch;// повторный ввод на имя портала
 
-            if (ch != "no") {
 
                 for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
@@ -97,17 +90,9 @@ int main()
                         cout << "Вы переместились в локацию: " << room[user.current_loc].name << endl;
 
                     }
-                    else {
-                        cout << "ERROR\n";
-                    }
-
                 }
-
-            }
-
         }
         
-
         if (ch == "item") {
 
             for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
@@ -115,8 +100,6 @@ int main()
                 cout << (int)user.item_p[i] << endl; // я прировнял цифровые переменные, которые храняться в массиве инвентаря к int
 
             }
-
-
         }
 
         if (ch == "q") {
@@ -126,13 +109,9 @@ int main()
 
         if (ch == "help") {
 
-            cout << "Команды:\n1.go\n2.item\n3.q";
-
+            cout << "Command:\n1.go\n2.item\n3.q";
 
         }
-
-
-
     }
 }
 
