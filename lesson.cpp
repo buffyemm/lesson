@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 
-void security() {
+void security() { // перенес в отдельную функцию
 
     int a;// переменная a, типа int, целые переменные
 
@@ -15,7 +15,7 @@ void security() {
 
 }
 
-void elit_security() {
+void elit_security() { // Мы пускаем людей с 18 лет до 30
 
     int a;// переменная a, типа int, целые переменные
 
