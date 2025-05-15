@@ -7,10 +7,10 @@ void security() { // перенес в отдельную функцию
     std::cin >> a; // принимает ввод с консоли и кладет наш ввод в переменную а
 
     if (a < 18) { // если а меньше 18, мы выводим NO
-        std::cout << "NO\n";
+        std::cout << "entrance denied\n";
     }
     else {
-        std::cout << "ok\n"; // если условие a < 18 не проходит выполняется иначе
+        std::cout << "you're welcome\n"; // если условие a < 18 не проходит выполняется иначе
     }
 
 }
@@ -23,17 +23,17 @@ void elit_security() { // Мы пускаем людей с 18 лет до 30
 
     if (a < 18) { // если а меньше 18, мы выводим NO
 
-        std::cout << "NO\n";
+        std::cout << "entrance denied\n";
 
     }
     else if (a >= 30) {
 
-        std::cout << "old\n";
+        std::cout << "you're not welcome here\n";
 
     }
     else {
         
-        std::cout << "ok\n"; // если условие a < 18 не проходит выполняется иначе
+        std::cout << "you're welcome\n"; // если условие a < 18 не проходит и не проходит a >= 30, выполняется иначе
         
     }
 }
