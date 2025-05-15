@@ -40,9 +40,8 @@ void elit_security() { // Мы пускаем людей с 18 лет до 30
 
 int main()
 {   
-    security();
-    elit_security();
+    security(); // запускаю функцию
+    elit_security();// запускаю функцию
 
- 
 }
 
