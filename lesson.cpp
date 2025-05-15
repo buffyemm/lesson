@@ -1,11 +1,5 @@
 ﻿#include <iostream>
 
-
-void security() {
-
-
-}
-
 int main()
 {   
 
@@ -20,6 +14,5 @@ int main()
         std::cout << "you're welcome\n"; // если условие a < 18 не проходит выполняется иначе
     }
 
- 
 }
 
