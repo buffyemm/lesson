@@ -45,6 +45,7 @@ void InitGame() {       // создаем функцию которая буде
 
     room[0].name = "Home"; // задаем кажой комнате имя
     room[0].portal.push_back({ "door", 1 }); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
+    room[0].portal.push_back({ "door2", 2 });
 
     room[1].name = "room";
     room[1].portal.push_back({ "back", 0 });
@@ -64,15 +65,15 @@ int main()
 {
 
     InitGame();
-    string ch; // создали переменную для ввода пользователя
+    string chouse; // создали переменную для ввода пользователя
 
     cout << "You're in location: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
 
     while (user.life) { // цикл игры, пока пользователь живой
 
-        cin >> ch;
+        cin >> chouse;
 
-        if (ch == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
+        if (chouse == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
@@ -80,12 +81,12 @@ int main()
             }
 
 
-            cin >> ch;// повторный ввод на имя портала
+            cin >> chouse;// повторный ввод на имя портала
 
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
-                if (ch == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
+                if (chouse == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
                     user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
 
@@ -95,7 +96,7 @@ int main()
             }
         }
 
-        if (ch == "item") {
+        if (chouse == "item") {
 
             for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
                 // будут выводиться только цифры
