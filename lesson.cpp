@@ -1,10 +1,8 @@
 ﻿#include <iostream>
 #include <string> // подключаем библиотеку для стринг
-#include <Windows.h>
 
 int main()
 {   
-    SetConsoleCP(1251); // подключаем запись русского языка в string
     srand(time(NULL));//помошник для функции рандома, который принимает в себя время компьютера
 
     std::string user;// переменная user становиться string, уже можем вмещать некие слова
@@ -33,6 +31,6 @@ int main()
 
     }
 
-    std::cout << r << std::endl;
+    std::cout << r << std::endl; // выводится число которое будет передаваться в массив bot
 }
 
