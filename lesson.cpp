@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <string> // подключаем библиотеку для стринг
-#include <Windows.h>
 #include <vector>
 
 using namespace std;
@@ -33,9 +32,9 @@ location_ room[4];
 
 void InitGame() {       // создаем функцию которая будет заносить все наши значения в массив room
 
-    room[0].name = "Дом"; // задаем кажой комнате имя
+    room[0].name = "Home"; // задаем кажой комнате имя
     room[0].portal.push_back({"door", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
-    room[1].name = "Комната";
+    room[1].name = "room";
     room[1].portal.push_back({"back", 0});
 
 }
@@ -43,43 +42,36 @@ void InitGame() {       // создаем функцию которая буде
 // здесь мы уже попробуем реализовать нашу основную механик игры, перемещение по локациям с помощью порталов
 int main()
 {   
-    SetConsoleCP(1251); // подключаем запись русского языка в string
-    setlocale(LC_ALL, "Ru");// подключаем русский язык для вывода в консоль
 
     InitGame();
-    string ch; // создали переменную для ввода пользователя
+    string chouse; // создали переменную для ввода пользователя
 
-    cout << "Вы находитесь в локации: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
+    cout << "You're in location: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
 
     while (user.life) { // цикл игры, пока пользователь живой
 
 
-        cin >> ch;
+        cin >> chouse;
 
-        if (ch == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
+        if (chouse == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
                 cout << room[user.current_loc].portal[i].name << endl; // здесь будут уже не цифры а имена порталов.
             }
 
-            cout << "Введите имя портала или напиши no, чтобы отменить выбор:  \n";
+            cin >> chouse;// повторный ввод на имя портала
 
-            cin >> ch;// повторный ввод на имя портала
-
-            if (ch != "no") {
+            if (chouse != "no") {
 
                 for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
-                    if (ch == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
+                    if (chouse == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
                         user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
 
-                        cout << "Вы переместились в локацию: " << room[user.current_loc].name << endl;
+                        cout << "You're go in: " << room[user.current_loc].name << endl;
 
-                    }
-                    else {
-                        cout << "ERROR\n";
                     }
 
                 }
@@ -89,10 +81,7 @@ int main()
 
         }
 
-
-
-
-
     }
+
 }
 
