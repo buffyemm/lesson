@@ -87,7 +87,7 @@ int main()
 
                         user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
 
-                        cout << "Вы переместились в локацию: " << room[user.current_loc].name << endl;
+                        cout << "You're in location: " << room[user.current_loc].name << endl;
 
                     }
                 }
