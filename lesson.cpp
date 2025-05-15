@@ -62,15 +62,15 @@ int main()
 {   
 
     InitGame();
-    string ch; // создали переменную для ввода пользователя
+    string chouse; // создали переменную для ввода пользователя
 
     cout << "You're in location: " << room[user.current_loc].name << endl; // выведем имя локации  в которой находится игрок
 
     while (user.life) { // цикл игры, пока пользователь живой
 
-        cin >> ch;
+        cin >> chouse;
 
-        if (ch == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
+        if (chouse == "go") { // логика работы наших команд, если ввели go, нам будут показываться все доступные порталы в локации, где находится игрок
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
@@ -78,22 +78,22 @@ int main()
             }
 
 
-            cin >> ch;// повторный ввод на имя портала
+            cin >> chouse;// повторный ввод на имя портала
 
 
-                for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
+            for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
-                    if (ch == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
+                if (chouse == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
-                        user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
+                    user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
 
-                        cout << "You're in location: " << room[user.current_loc].name << endl;
+                    cout << "You're in location: " << room[user.current_loc].name << endl;
 
-                    }
                 }
+            }
         }
         
-        if (ch == "item") {
+        if (chouse == "item") {
 
             for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
                 // будут выводиться только цифры
@@ -102,14 +102,14 @@ int main()
             }
         }
 
-        if (ch == "q") {
+        if (chouse == "q") {
 
             break; // выход из цикла
         }
 
-        if (ch == "help") {
+        if (chouse == "help") {
 
-            cout << "Command:\n1.go\n2.item\n3.q";
+            cout << "Command:\n1.go\n2.item\n3.q\n";
 
         }
     }
