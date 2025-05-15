@@ -256,7 +256,7 @@ int main()
                                        break;
 
                                }
-                                
+                                //
                                default: {
 
                                    cout << "не тот предмет";
