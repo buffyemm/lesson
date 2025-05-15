@@ -19,9 +19,9 @@ location_ room[4];
 
 void InitGame() {       // создаем функцию которая будет заносить все наши значения в массив room
 
-    room[0].name = "Дом";
+    room[0].name = "Home";
     room[0].portal.push_back(1); 
-    room[1].name = "Комната";
+    room[1].name = "room";
     room[1].portal.push_back(0);
 
 }
