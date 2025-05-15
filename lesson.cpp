@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include <string> // подключаем библиотеку для стринг
-#include <Windows.h>
 #include <vector>
 
-using namespace std;
+using namespace std; // чтобы не писать названия пакета перед каждым вызовом
 
 
 struct location_ {      // создали структуру локации, в ней есть имя и наши портал, по которым мы будем перемещаться
@@ -29,9 +28,6 @@ void InitGame() {       // создаем функцию которая буде
 
 int main()
 {   
-    SetConsoleCP(1251); // подключаем запись русского языка в string
-    setlocale(LC_ALL, "Ru");// подключаем русский язык для вывода в консоль
-
     InitGame();
     
     cout << room[0].name << endl; // выведем имя локации 0
