@@ -32,18 +32,16 @@ location_ room[4];
 
 void InitGame() {       // создаем функцию которая будет заносить все наши значения в массив room
 
-    room[0].name = "Дом"; // задаем кажой комнате имя
-    room[0].portal.push_back({"Зеленая дверь", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
-    room[1].name = "Комната";
-    room[1].portal.push_back({"Дверь", 0});
+    room[0].name = "Home"; // задаем кажой комнате имя
+    room[0].portal.push_back({"door", 1}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
+    room[1].name = "room";
+    room[1].portal.push_back({"door_back", 0});
 
 }
 
 
 int main()
 {   
-    SetConsoleCP(1251); // подключаем запись русского языка в string
-    setlocale(LC_ALL, "Ru");// подключаем русский язык для вывода в консоль
 
     InitGame();
     
