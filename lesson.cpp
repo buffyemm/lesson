@@ -95,7 +95,7 @@ int main()
             }
         }
 
-        if (chouse == "item") {
+        if (chouse == "trunk") {
 
             for (int i = 0; i < user.item_p.size(); i++) { // идем по массиву ite_p, нам нужна его размерность 
                 cout << itemLib[(int)user.item_p[i]] << endl; // я прировнял цифровые переменные, которые храняться в массиве инвентаря к int и передаю в массив string
