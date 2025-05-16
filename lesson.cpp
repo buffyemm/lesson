@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <string> // подключаем библиотеку для стринг
-#include <Windows.h>
 #include <vector>
 
 using namespace std;
