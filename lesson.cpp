@@ -11,7 +11,7 @@ int main()
 
     std::string bot[3]{ "rock", "scissors", "paper" };//создаем массив стринг,который будет считать двумерным массивом, и в него будем передавать r
 
-    std::cout << "Введите число\n1.rock\n2.scissors\n3.paper\n";
+    std::cout << "Enter word: \n1.rock\n2.scissors\n3.paper\n";
 
     std::cin >> user; // принимает ввод с консоли и кладет наш ввод в переменную user
 
