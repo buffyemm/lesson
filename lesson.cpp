@@ -26,6 +26,7 @@ struct portal_ { // структура портала, в которой буд�
 
     string name; // имя портала
     int target;  // куда будет вести портал, в какую локацию
+    bool activ;
 
 };
 
@@ -43,18 +44,18 @@ location_ room[4];
 void InitGame() {       // создаем функцию которая будет заносить все наши значения в массив room
 
     room[0].name = "Home"; // задаем кажой комнате имя
-    room[0].portal.push_back({ "door", 1 }); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
-    room[0].portal.push_back({ "door2", 2 });
+    room[0].portal.push_back({ "green_door", 1 , false}); // закидываем в векотор portal с помощью метода: имя, и куда ведет локация
+    room[0].portal.push_back({ "black_door", 2, false });
     room[0].item.push_back((item_::axe));// закинул предмет
 
     room[1].name = "room";
-    room[1].portal.push_back({ "back", 0 });
+    room[1].portal.push_back({ "back", 0 , true });
     room[1].item.push_back((item_::sword));// закинули предмет
     room[1].item.push_back((item_::hemlet));
 
     room[2].name = "Entrance";
-    room[2].portal.push_back({ "back", 0 });
-    room[2].portal.push_back({ "iron_door", 3 });
+    room[2].portal.push_back({ "back", 0 , true });
+    room[2].portal.push_back({ "iron_door", 3, false });
 
     room[3].name = "Street";
 
@@ -62,7 +63,7 @@ void InitGame() {       // создаем функцию которая буде
 
 }
 
-// создадим команду Drop
+// use команд, реализовал скрытые порталы
 int main()
 {
 
@@ -85,7 +86,9 @@ int main()
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {  // идем по массиву порталов в кажой локции где находится персонаж
 
-                cout << room[user.current_loc].portal[i].name << endl; // здесь будут уже не цифры а имена порталов.
+                auto p = room[user.current_loc].portal[i];
+
+                cout << room[user.current_loc].portal[i].name << (p.activ ? " is unlocked" : " is locked") << endl; // здесь будут уже не цифры а имена порталов.
             }
 
 
@@ -94,13 +97,19 @@ int main()
 
             for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
 
-                if (chouse == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
-                    user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
+                    if (chouse == room[user.current_loc].portal[i].name) { // если ввод пользователя сходится с именем портала локации
 
-                    cout << "You're in location: " << room[user.current_loc].name << endl;
+                        if (room[user.current_loc].portal[i].activ) { // проверка, на активен ли портал
 
-                }
+                            user.current_loc = room[user.current_loc].portal[i].target; // то мы текущую локацию игрока, меняем на таргет портала, куда ведет портал, в какую комнату
+
+                            cout << "You're in location: " << room[user.current_loc].name << endl;
+                        }
+                        else {
+                            cout << "LOCKED\n";
+                        }
+                    }
             }
         }
 
@@ -163,20 +172,66 @@ int main()
 
         if (chouse == "use") {
 
+            int dir;
 
             if (!user.item.empty()) {
 
                 for (int i = 0; i < user.item.size(); i++) {
 
-                    cout << i + 1 << itemLib[(int)user.item[i]];
+                    cout << i + 1 << ". " << itemLib[(int)user.item[i]] << endl;
 
-                
                 }
 
-            cout << "Enter item\n";
+            cout << "Enter number item\n";
 
-            cin >> chouse;
+            cin >> dir;
 
+
+           
+
+            switch ((int)user.item[dir - 1]) {
+
+            case 0: {
+
+                cout << "use axe\n";
+                break;
+
+            }
+
+            case 1: {
+
+                cout << "use sword\n";
+                break;
+
+            }
+
+            case 2: {
+
+                cout << "use hemlet\n";
+                break;
+
+            }
+
+            case 3: {
+
+                for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
+
+                    cout << i + 1 << ". " << room[user.current_loc].portal[i].name << endl;
+
+                }
+                cout << "Enter number door: \n";
+
+                cin >> dir;
+
+                room[user.current_loc].portal[dir - 1].activ ? room[user.current_loc].portal[dir - 1].activ = false : room[user.current_loc].portal[dir - 1].activ = true; //читайте про тернарный оператор
+
+                cout << "You're " << (room[user.current_loc].portal[dir - 1].activ ? "unlocked door " : "locked door ") << room[user.current_loc].portal[dir - 1].name << endl;
+
+                break;
+
+            }
+
+            }
 
 
             }
