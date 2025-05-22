@@ -75,7 +75,7 @@ void begin_fight() {
 
         for (int j = 0; j < room[user.current_loc].enemy.size(); j++) {
 
-            if (user.current_loc == room[user.current_loc].enemy[j].current_loc && room[user.current_loc].enemy[j].hp >= 0) {
+            if (user.current_loc == room[user.current_loc].enemy[j].current_loc) {
 
                 cout << " You were attacked " << room[user.current_loc].enemy[j].name << endl;
                 user.attack = true;
