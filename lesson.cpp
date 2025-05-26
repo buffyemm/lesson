@@ -7,12 +7,13 @@ using namespace std;
 enum class item_ {
     axe,
     sword,
-    hemlet,
+    shield,  // Добавил shield
     key,
-    sheld  // Добавил sheld (возможно, опечатка в вашем коде)
+    hemlet
+    
 };
 
-string itemLib[] = { "axe", "sword", "hemlet", "key", "sheld" };
+string itemLib[] = { "axe", "sword", "shield", "key", "hemlet"};
 
 struct player_ {
     int hp;
@@ -52,13 +53,14 @@ void InitGame() {
     room[0].name = "Home";
     room[0].portal.push_back({ "green_door", 1, true });
     room[0].portal.push_back({ "black_door", 2, false });
-    room[0].item.push_back(item_::axe);
+    room[0].item.push_back(item_::shield);
+
 
     room[1].name = "room";
     room[1].portal.push_back({ "back", 0, true });
     room[1].item.push_back(item_::sword);
     room[1].item.push_back(item_::hemlet);
-    room[1].enemy.push_back({ "GOBLIN", 200, 10, true, {item_::sword, item_::sheld}, 1 });  // Теперь работает!
+    room[1].enemy.push_back({ "GOBLIN", 200, 10, true, {item_::sword, item_::shield}, 1 });  // Теперь работает!
 
     room[2].name = "Entrance";
     room[2].portal.push_back({ "back", 0, true });
@@ -75,7 +77,7 @@ void begin_fight() {
 
         for (int j = 0; j < room[user.current_loc].enemy.size(); j++) {
 
-            if (user.current_loc == room[user.current_loc].enemy[j].current_loc && room[user.current_loc].enemy[j].hp >= 0) {
+            if (user.current_loc == room[user.current_loc].enemy[j].current_loc) {
 
                 cout << " You were attacked " << room[user.current_loc].enemy[j].name << endl;
                 user.attack = true;
@@ -98,6 +100,7 @@ void begin_fight() {
 // use команда, будем реализовывать противника и вводить систему боевки похожую на камень ножницы бумага
 int main()
 {
+    srand(time(NULL));
 
     InitGame();
     string chouse; // создали переменную для ввода пользователя
@@ -204,6 +207,9 @@ int main()
 
         }
 
+        if (user.hp <= 0) {
+            user.life = false;
+        }
 
         if (chouse == "use") {
 
@@ -222,82 +228,151 @@ int main()
                     cout << "Enter number item\n";
 
                     cin >> dir;
+                    
+                    
+                        switch ((int)user.item[dir - 1]) {
+
+                        case 0: {
+
+                            cout << "use axe\n";
+
+                            for (int i = 0; i < room[user.current_loc].enemy.size(); i++) {
+
+                                if (room[user.current_loc].enemy[i].hp > 0 ) {
+
+                                    int r = rand() % room[user.current_loc].enemy[i].items.size();
+
+                                    if (room[user.current_loc].enemy[i].items[r] == item_::sword) {
 
 
+                                        user.hp -= 40;
+                                        room[user.current_loc].enemy[i].hp -= 50;
+                                        cout << "You have attack " << room[user.current_loc].enemy[i].name << endl;
+                                        cout << "You have damage\nYour hp: " << user.hp << endl;
+                                        cout << "Goblin HP: " << room[user.current_loc].enemy[i].hp << endl;
+
+                                    }
+                                    else {
+
+                                        cout << "Goblin DEFEND\n";
+
+                                    }
+
+                                }
+                                else {
+
+                                    cout << "You have killed " << room[user.current_loc].enemy[i].name << endl;
+                                    room[user.current_loc].enemy.erase(room[user.current_loc].enemy.begin() + i);
+                                    user.attack = false;
+                                }
+                            }
+
+                            break;
+
+                        }
+
+                        case 1: {
+
+                            cout << "use sword\n";
+
+                            for (int i = 0; i < room[user.current_loc].enemy.size(); i++) {
+
+                                if (room[user.current_loc].enemy[i].hp > 0) {
+
+                                    int r = rand() % room[user.current_loc].enemy[i].items.size();
+
+                                    if (room[user.current_loc].enemy[i].items[r] == item_::sword) {
+
+                                        user.hp -= rand() % 100;
+                                        room[user.current_loc].enemy[i].hp -= 40;
+                                        cout << "You have attack " << room[user.current_loc].enemy[i].name << endl;
+                                        cout << "You have damage\nYour hp: " << user.hp << endl;
+                                        cout << "Goblin HP: " << room[user.current_loc].enemy[i].hp << endl;
+
+                                    }
+                                    else {
+
+                                        cout << "Goblin DEFEND\n";
+
+                                    }
+
+                                }
+                                else {
+
+                                    cout << "You have killed " << room[user.current_loc].enemy[i].name << endl;
+                                    room[user.current_loc].enemy.erase(room[user.current_loc].enemy.begin() + i);
+                                    user.attack = false;
+                                }
+                            }
+
+                            break;
+
+                        }
+
+                        case 2: {
+
+                            cout << "use shield\n";
+
+                            for (int i = 0; i < room[user.current_loc].enemy.size(); i++) {
+
+                                if (user.attack) {
+
+                                    int r = rand() % room[user.current_loc].enemy[i].items.size();
+
+                                    if (room[user.current_loc].enemy[i].items[r] == item_::sword) {
 
 
-                    switch ((int)user.item[dir - 1]) {
+                                        cout << "You have Defend" << endl;
 
-                    case 0: {
+                                    }
+                                    else {
 
-                        cout << "use axe\n";
-                        break;
+                                        cout << "Everyone raised their shields\n";
 
-                    }
+                                    }
 
-                    case 1: {
 
-                        cout << "use sword\n";
-
-                        if (room[user.current_loc].enemy[0].hp > 0) {
-
-                            int r = rand() % room[user.current_loc].enemy.size();
-                            if (room[user.current_loc].enemy[0].items[r] == item_::sword) {
-
-                                
-                                user.hp -= 40;
-                                room[user.current_loc].enemy[0].hp -= 40;
-                                cout << "You have attack " << room[user.current_loc].enemy[0].name << endl;
-                                cout << "You have damage\nYour hp: " << user.hp << endl;
+                                }
 
                             }
-                            else {
 
-                                cout << "Goblin DEFEND\n";
+                            break;
+
+                        }
+
+                        case 3: {
+
+                            for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
+
+                                cout << i + 1 << ". " << room[user.current_loc].portal[i].name << endl;
 
                             }
+                            cout << "Enter number door: \n";
+
+                            cin >> dir;
+
+                            room[user.current_loc].portal[dir - 1].activ ? room[user.current_loc].portal[dir - 1].activ = false : room[user.current_loc].portal[dir - 1].activ = true; //читайте про тернарный оператор
+
+                            cout << "You're " << (room[user.current_loc].portal[dir - 1].activ ? "unlocked door " : "locked door ") << room[user.current_loc].portal[dir - 1].name << endl;
+
+                            break;
 
                         }
-                        else {
 
-                            cout << "You have killed " << room[user.current_loc].enemy[0].name;
-                            user.attack = false;
-                        }
-                        break;
+                        case 4: {
 
-                    }
 
-                    case 2: {
-
-                        cout << "use shield\n";
-                        break;
-
-                    }
-
-                    case 3: {
-
-                        for (int i = 0; i < room[user.current_loc].portal.size(); i++) {
-
-                            cout << i + 1 << ". " << room[user.current_loc].portal[i].name << endl;
+                            user.hp += 100;
+                            cout << "You are wearing a helmet\nYour HP has increased by 100\n";
+                            break;
 
                         }
-                        cout << "Enter number door: \n";
 
-                        cin >> dir;
+                        }
 
-                        room[user.current_loc].portal[dir - 1].activ ? room[user.current_loc].portal[dir - 1].activ = false : room[user.current_loc].portal[dir - 1].activ = true; //читайте про тернарный оператор
-
-                        cout << "You're " << (room[user.current_loc].portal[dir - 1].activ ? "unlocked door " : "locked door ") << room[user.current_loc].portal[dir - 1].name << endl;
-
-                        break;
-
-                    }
-
-                    }
-
+                   
 
                 }
-            
         }
 
     }
