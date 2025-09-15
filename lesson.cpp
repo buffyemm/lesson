@@ -15,13 +15,18 @@ struct location_ {      // создали структуру локации, в 
 
 location_ room[4];
 
+int curren_loc = 0; // перменная следящая в какой локации игрок
 
 void InitGame() {      // создаем функцию которая будет заносить все наши значения в массив room
 
     room[0].name = "Home";
     room[0].portal.push_back(1); 
+    room[0].portal.push_back(2);
+
     room[1].name = "room";
     room[1].portal.push_back(0);
+    room[2].name = "HUB";
+    room[2].portal.push_back(0);
 
 }
 
@@ -29,14 +34,34 @@ void InitGame() {      // создаем функцию которая буде�
 int main()
 {   
     InitGame();
-    
-    cout << room[0].name << endl; // выведем имя локации 0
+   
+    int user_choice;
 
-    for (int i = 0; i < room[0].portal.size(); i++) {  // выведем порталы, цифры будут обозначать в какую локацию будут идти
+    while (true) {
 
-        cout << room[0].portal[i] << endl;
+        cout << room[curren_loc].name << endl; // выведем имя локации 0
+
+        cout << "\tLocation number:\n";
+
+        for (int i = 0; i < room[curren_loc].portal.size(); i++) {  // выведем порталы, цифры будут обозначать в какую локацию будут идти
+
+            cout << room[curren_loc].portal[i] << endl;
+
+        }
+
+        cin >> user_choice;
+        
+        for (int i = 0; i < room[curren_loc].portal.size(); i++) {
+
+            if (user_choice  == (room[curren_loc].portal[i])) {
+
+                cout << "You're going location: " << room[user_choice].name << endl;
+                curren_loc = user_choice;
+
+            }
+
+        }
 
     }
-
 }
 
